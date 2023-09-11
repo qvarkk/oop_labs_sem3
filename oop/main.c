@@ -13,5 +13,8 @@ int main(void) {
   item = (struct Item*)calloc(1, sizeof(struct Item));
   Add(&list, item);
   printf("%i\n", Count(&list));
+  Remove(&list, 0);
   PrintList(&list);
+  Clear(&list);
+  
 }

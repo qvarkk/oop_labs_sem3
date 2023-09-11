@@ -11,5 +11,10 @@ struct List {
 void Add(struct List*, struct Item*);
 int Count(struct List*);
 void PrintList(struct List*);
+struct Item* GetItem(struct List*, int);
+int GetIndex(struct List*, struct Item*);
+struct Item* Remove(struct List*, int);
+void Delete(struct List*, int);
+void Clear(struct List*);
 
 #endif 
