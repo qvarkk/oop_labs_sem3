@@ -6,10 +6,13 @@ void Add(struct List* list, struct Item* item) {
   if (list->head == NULL) {
     list->head = item;
     list->tail = item;
+    item->next = NULL;
+    item->prev = NULL;
   } else {
     list->tail->next = item;
     item->prev = list->tail;
     list->tail = item;
+    item->next = NULL;
   }
 }
 
@@ -24,15 +27,12 @@ int Count(struct List* list) {
 
 void PrintList(struct List* list) {
   struct Item* curr;
+  int i = 0;
   for (curr = list->head; curr != NULL; curr = curr->next) {
-    if (curr == list->head) {
-      printf("HEAD:\n\tCurr: %p\n\tNext: %p\n", curr, curr->next);
-    } else if (curr == list->tail) {
-      printf("TAIL:\n\tPrev: %p\n\tCurr: %p\n", curr->prev, curr);
-    } else {
-      printf("ITEM:\n\tPrev: %p\n\tCurr: %p\n\tNext: %p\n", curr->prev, curr, curr->next);
-    } 
+    printf("%d\t%p\t%p\t%p\n", i, curr, curr->prev, curr->next);
+    i++;
   }
+  printf("\n");
 }
 
 struct Item* GetItem(struct List* list, int index) {
@@ -57,8 +57,22 @@ int GetIndex(struct List *list, struct Item* item) {
   return counter;
 }
 
-void Insert(struct List *list, struct Item* item, int i) {
-  
+void Insert(struct List *list, struct Item* item, int index) {
+  struct Item* itemAtPos = GetItem(list, index);
+  if (itemAtPos == NULL) {
+    Add(list, item);
+  } else if (index == 0) {
+    list->head->prev = item;
+    item->next = list->head;
+    list->head = item;
+    item->prev = NULL;
+  } else {
+    item->next = itemAtPos;
+    item->prev = itemAtPos->prev;
+    itemAtPos->prev->next = item;
+    itemAtPos->prev = item;
+  }
+  PrintList(list);
 }
 
 struct Item* Remove(struct List* list, int index) {
