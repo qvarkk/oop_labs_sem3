@@ -1,21 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
+#include "subj.h"
+
+int DoMenu(char* s[], int len) {
+  int i;
+  for (i = 1; i <= len; i++) {
+    printf("%i. %s\n", i, s[i]);
+  }
+  printf("0. Exit\n");
+  printf("> ");
+  fflush(stdin);
+  scanf("%i", &i);
+  return i<0 || i>len ? -1 : i;
+}
 
 int main(void) {
   struct List list;
   struct Item* item;
+  char *menu[] = {"(none)", "Add Item", "Count", "Print List", "Insert", "Delete", "Clear", "Exit"};
   
   int buff;
-  while (1) {
-    printf("1. Add item\n2. Count\n3. Print List\n4. Insert\n5. Delete\n6. Clear\n0. Exit\n\nInsert option: ");
-    scanf("%i", &buff);
-    fflush(stdin);
-
+  do {
+    buff = DoMenu(menu, 6);
     switch (buff) {
       case 1:
-        item = (struct Item*)calloc(1, sizeof(struct Item));
-        Add(&list, item);
+        do {
+          printf("Star - 1\nPlanet - 2\n> ");
+          fflush(stdin);
+          scanf("%d", &buff);
+          if (buff == 1 || buff == 2) 
+            break;
+          else
+            printf("Wrong input\n");
+        } while (1);
+        struct Base* base = Create(buff);
+        InputItem(base);
+        Add(&list, (struct Item*)base);
         printf("Item was added!\n\n");
         break;
       case 2:
@@ -47,6 +67,6 @@ int main(void) {
         printf("Wrong option!\n\n");
         break;
     }
-  }
+  } while (1);
 
 }
