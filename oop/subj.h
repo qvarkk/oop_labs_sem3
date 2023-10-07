@@ -6,18 +6,18 @@
 enum ItemType {None, Star, Planet};
 
 struct Base {
-  enum ItemType type;
   struct Item* next;
   struct Item* prev;
+  enum ItemType type;
   char* name;
   double mass;
-  double diameter;
+  int diameter;
 };
 
 struct Star {
-  enum ItemType type;
   struct Item* next;
   struct Item* prev;
+  enum ItemType type;
   char* name;
   double mass;
   int diameter;
@@ -27,9 +27,9 @@ struct Star {
 };
 
 struct Planet {
-  enum ItemType type;
   struct Item* next;
   struct Item* prev;
+  enum ItemType type;
   char* name;
   double mass;
   int diameter;
@@ -44,6 +44,7 @@ void InputItem(struct Base*);
 void PrintStar(struct Star*);
 void PrintPlanet(struct Planet*);
 void PrintItem(struct Base*);
+void PrintSpaceItems(struct List*);
 void SortList(struct List*);
 struct Base* SearchByName(char *name);
 struct Base* SearchByDistance(double start, double end);
