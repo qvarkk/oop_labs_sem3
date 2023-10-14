@@ -72,7 +72,6 @@ void Insert(struct List *list, struct Item* item, int index) {
     itemAtPos->prev->next = item;
     itemAtPos->prev = item;
   }
-  PrintList(list);
 }
 
 struct Item* Remove(struct List* list, int index) {

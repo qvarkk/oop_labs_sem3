@@ -17,13 +17,14 @@ int main(void) {
   struct List list;
   struct Base* item;
   enum ItemType type;
-  char *menuActions[] = {"(none)", "Add Item", "Count", "Print List", "Print Item", "Insert", "Delete", "Clear"};
+  char *menuActions[] = {"(none)", "Add Item", "Count", "Print List", "Print Item", "Search By Name", "Search By Distance", "Sort List", "Insert", "Delete", "Clear"};
   char *typeNames[] = {"(unknown)", "Star", "Planet"};
   
-  int buff;
+  int buffInt;
+  char *buffStr = (char*)calloc(1, sizeof(char) * 100);
   do {
-    buff = DoMenu(menuActions, 7);
-    switch (buff) {
+    buffInt = DoMenu(menuActions, 9);
+    switch (buffInt) {
       case 1:
         type = DoMenu(typeNames, 2);
         if (type != None) {
@@ -43,28 +44,43 @@ int main(void) {
         break;
       case 4:
         printf("Enter index: ");
-        scanf("%i", &buff);
-        item = (struct Base*)GetItem(&list, buff);
+        scanf("%i", &buffInt);
+        item = (struct Base*)GetItem(&list, buffInt);
         if (item)
           PrintItem(item);
         break;
       case 5:
+        printf("Enter name: ");
+        scanf(" %100[^\n]", buffStr);
+        SearchByName(&list, buffStr);
+        break;
+      case 6:
+        printf("Enter the interval: ");
+        int start, end = -1;
+        if (scanf("%d%d", &start, &end) == 2) {
+          SearchByDistance(&list, start, end);
+        }
+        break;
+      case 7:
+        SortList(&list);
+        break;
+      case 8:
         printf("Enter index: ");
-        scanf("%i", &buff);
+        scanf("%i", &buffInt);
         type = DoMenu(typeNames, 2);
         if (type != None) {
           item = Create(type);
           InputItem(item);
-          Insert(&list, (struct Item*)item, buff);
+          Insert(&list, (struct Item*)item, buffInt);
           printf("Item was inserted!\n\n");
         }
         break;
-      case 6:
+      case 9:
         printf("Enter index: ");
-        scanf("%i", &buff);
-        Delete(&list, buff);
+        scanf("%i", &buffInt);
+        Delete(&list, buffInt);
         break;
-      case 7:
+      case 10:
         Clear(&list);
         printf("List was cleared\n\n");
         break;

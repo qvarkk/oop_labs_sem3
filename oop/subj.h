@@ -45,8 +45,8 @@ void PrintStar(struct Star*);
 void PrintPlanet(struct Planet*);
 void PrintItem(struct Base*);
 void PrintSpaceItems(struct List*);
+struct Base *SearchByName(struct List*, char*);
+void SearchByDistance(struct List*, double, double);
 void SortList(struct List*);
-struct Base* SearchByName(char *name);
-struct Base* SearchByDistance(double start, double end);
 
 #endif

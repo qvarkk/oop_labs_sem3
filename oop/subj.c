@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "subj.h"
 
 struct Base *Create(enum ItemType t) {
@@ -132,7 +133,7 @@ void PrintStar(struct Star* p) {
 void PrintPlanet(struct Planet* p) {
   printf("Name: %s\t Mass: %lf\n", p->name, p->mass);
   printf("Diameter: %d\t Orbit diameter: %d\n", p->diameter, p->orbitDiameter);
-  printf("Planetary system: %s\n", p->planetarySystem);
+  printf("Planetary system: %s\n\n", p->planetarySystem);
 }
 
 void PrintItem(struct Base *p) {
@@ -158,4 +159,59 @@ void PrintSpaceItems(struct List* list) {
     i++;
   }
   printf("\n");
+}
+
+struct Base *SearchByName(struct List* list, char *name) {
+  struct Base* curr;
+  for (curr = (struct Base*)list->head; curr != NULL; curr = (struct Base*)curr->next) {
+    if (!strcmp(name, curr->name)) {
+      return curr;
+    }
+  }
+}
+
+void SearchByDistance(struct List* list, double start, double end) {
+  struct Base* curr;
+  int i = 0;
+  for (curr = (struct Base*)list->head; curr != NULL; curr = (struct Base*)curr->next) {
+    if (curr->type == Star) {
+      int dist = ((struct Star*)curr)->distToEarth;
+      if (dist >= start && dist <= end) {
+        printf("\n%d.\n", i);
+        PrintItem(curr);
+        i++;
+      }
+    }
+  }
+}
+
+void Swap(struct List* list, int i1) {
+  struct Item* tmp1 = Remove(list, i1);
+  Insert(list, tmp1, i1 + 1);
+  // struct Item* tmp2 = Remove(list, i2);
+  // Insert(list, tmp2, i1);
+}
+
+void SortList(struct List* list) {
+  struct Base* curr;
+  int swapped = 1;
+  for (int i = 0; i < Count(list); i++) {
+    if (swapped == 0)
+      break;
+
+    swapped = 0;
+    for (curr = (struct Base*)list->head; curr != NULL; curr = ((struct Base*)curr->next)) {  
+      if (curr->next != NULL) {
+        if (curr->type == Star) {
+          if (strcmp(curr->name, ((struct Base*)curr->next)->name) > 0) {
+            Swap(list, GetIndex(list, (struct Item*)curr));
+            curr = ((struct Base*)curr->prev);
+            swapped = 1;
+          }
+        }
+      } else {
+        break;
+      }
+    }
+  }
 }
