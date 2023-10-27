@@ -185,16 +185,15 @@ void SearchByDistance(struct List* list, double start, double end) {
   }
 }
 
-void Swap(struct List* list, int i1) {
-  struct Item* tmp1 = Remove(list, i1);
+void Swap(struct List *list, int i1) {
+  struct Item *tmp1 = Remove(list, i1);
   Insert(list, tmp1, i1 + 1);
-  // struct Item* tmp2 = Remove(list, i2);
-  // Insert(list, tmp2, i1);
 }
 
-void SortList(struct List* list) {
-  struct Base* curr;
-  int swapped = 1;
+void SortList(struct List *list) {
+  struct Base *curr, *currStar, *tmp;
+  
+  int swapped = 1, i = 0;
   for (int i = 0; i < Count(list); i++) {
     if (swapped == 0)
       break;
@@ -202,11 +201,28 @@ void SortList(struct List* list) {
     swapped = 0;
     for (curr = (struct Base*)list->head; curr != NULL; curr = ((struct Base*)curr->next)) {  
       if (curr->next != NULL) {
-        if (curr->type == Star) {
+        if (curr->type == Planet) {
+          Swap(list, GetIndex(list, (struct Item*)curr));
+          swapped = 1;
+          if (curr->prev != NULL)
+            curr = ((struct Base*)curr->prev);
+        }
+
+        if (curr->type == Star && ((struct Base*)curr->next)->type == Star) {
           if (strcmp(curr->name, ((struct Base*)curr->next)->name) > 0) {
             Swap(list, GetIndex(list, (struct Item*)curr));
-            curr = ((struct Base*)curr->prev);
             swapped = 1;
+            if (curr->prev != NULL)
+              curr = ((struct Base*)curr->prev);
+          }
+        }
+
+        if (curr->type == Planet && ((struct Base*)curr->next)->type == Planet) {
+          if (((struct Planet*)curr)->orbitDiameter > ((struct Planet*)curr->next)->orbitDiameter) {
+            Swap(list, GetIndex(list, (struct Item*)curr));
+            swapped = 1;
+            if (curr->prev != NULL)
+              curr = ((struct Base*)curr->prev);
           }
         }
       } else {
@@ -214,4 +230,23 @@ void SortList(struct List* list) {
       }
     }
   }
+
+
+  for (curr = (struct Base*)list->tail; curr != NULL && curr->type == Planet; curr = (struct Base*)curr->prev) {
+    printf("%p\n\n", curr);
+    for (currStar = (struct Base*)list->head; currStar != NULL && currStar->type == Star; currStar = (struct Base*)currStar->next) {
+      printf("%p\n\n", currStar);
+      printf("%s\n\n", curr->name);
+      printf("%d\n\n", strcmp(((struct Planet*)curr)->planetarySystem, currStar->name));
+      if (strcmp(((struct Planet*)curr)->planetarySystem, currStar->name) == 0) {
+        tmp = curr->prev ? (struct Base*)curr->prev : NULL; 
+        curr = (struct Base*)Remove(list, GetIndex(list, (struct Item*)curr));
+        Insert(list, (struct Item*)curr, GetIndex(list, (struct Item*)currStar) + 1);
+        if (tmp)
+          curr = (struct Base*)tmp->next;
+        else
+          curr = (struct Base*)list->tail;
+      }
+    }
+  } 
 }
