@@ -1,12 +1,10 @@
-from math import sqrt
+from math import degrees, sqrt, pow, pi
 
-partial_sum = 0
-partial_sum_squares = 0
-x_i = int(input())
-n = 0
-while x_i != 0:
-    n += 1
-    partial_sum += x_i
-    partial_sum_squares += x_i ** 2
-    x_i = int(input())
-print(sqrt((partial_sum_squares - partial_sum ** 2 / n) / (n - 1)))
+deg = degrees(pi)
+print(f'Pi radians in degrees: {deg}')
+
+root = sqrt(81)
+print(f'Square root of 81 is: {root}')
+
+power = pow(2, 10)
+print(f'2 to the power of 10 is: {power}')
