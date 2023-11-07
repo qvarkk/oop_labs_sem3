@@ -189,7 +189,9 @@ void Swap(struct List *list, int i1) {
 }
 
 int Compare(struct Base* curr) {
-  if ((curr->type == Planet) || (curr->type == Star && ((struct Base*)curr->next)->type == Star && strcmp(curr->name, ((struct Base*)curr->next)->name) > 0) || (curr->type == Planet && ((struct Base*)curr->next)->type == Planet && ((struct Planet*)curr)->orbitDiameter < ((struct Planet*)curr->next)->orbitDiameter))
+  if ((curr->type == Star && ((struct Base*)curr->next)->type == Star && strcmp(curr->name, ((struct Base*)curr->next)->name) > 0) ||
+    (curr->type == Planet && ((struct Base*)curr->next)->type == Planet && ((struct Planet*)curr)->orbitDiameter < ((struct Planet*)curr->next)->orbitDiameter) ||
+    (curr->type == Planet))
     return 1;
   else
     return 0;
