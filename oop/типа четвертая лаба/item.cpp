@@ -1,6 +1,7 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include "list.h"
+#include "item.h"
 
 Item::Item(const Item* it) {
 	SetNext(it->GetNext());
@@ -13,7 +14,12 @@ Item::Item() {
 }
 
 Item::~Item() {
-	if (list->GetIndex(this) != -1) list->Remove(list->GetIndex(this));
+	//
+	if(list)
+	{
+		int ind = list->GetIndex(this);
+		list->Remove(ind);
+	}
 }
 
 void Item::SetList(List* l) {

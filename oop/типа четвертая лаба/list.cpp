@@ -1,7 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
 #include <iostream>
 #include "list.h"
+#include "item.h"
 
 List::List(const List* l) {
     SetHead(l->GetHead());
@@ -81,7 +81,7 @@ Item* List::GetItem(int index) {
 int List::GetIndex(Item* item) {
     Item* curr;
     int counter = 0;
-    for (curr = head; curr; curr = curr->GetNext()) {
+    for (curr = head; curr != nullptr; curr = curr->GetNext()) {
         if (curr == item)
             break;
         counter++;
@@ -111,8 +111,11 @@ void List::Insert(Item* item, int index) {
 
 Item* List::Remove(int index) {
     Item* item = GetItem(index);
-    if (item == NULL)
-        return NULL;
+
+    std::cout << item << std::endl;
+
+    if (item == nullptr)
+        return nullptr;
 
     if (head == tail) {
         SetHead(nullptr);
@@ -132,7 +135,7 @@ Item* List::Remove(int index) {
         item->SetPrev(NULL);
         item->SetNext(NULL);
     }
-
+    item->SetList(nullptr);
     return item;
 }
 
@@ -146,6 +149,7 @@ void List::Delete(int index) {
 
 void List::Clear() {
     while (head) {
+        std::cout << "Clearing" << std::endl;
         Delete(0);
     }
 }

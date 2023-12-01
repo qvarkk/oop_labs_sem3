@@ -4,6 +4,7 @@
 class List;
 
 class Item {
+public:
 	friend class List;
 private:
 	List* list;
