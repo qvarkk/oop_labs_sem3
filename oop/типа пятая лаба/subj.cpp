@@ -7,16 +7,16 @@ Base* Base::Create(ItemType t) {
     Base* p = nullptr;
     switch (t) {
         case itStar:
-            p = (Base*)new Star;
+            p = new Star();
             break;
         case itPlanet:
-            p = (Base*)new Planet;
+            p = new Planet();
             break;
         case itNone:
             std::cout << "\nWrong item type!\n" << std::endl;
             break;
         }
-    if (p) p->SetType(t);
+    // if (p) p->SetType(t);
     return p;
 }
 
@@ -137,6 +137,8 @@ void SubjList::Sort() {
         swapped = false;
         for (curr = (Base*)GetHead(); curr; curr = ((Base*)curr->GetNext())) {  
             if (curr->GetNext() != NULL) {
+                // if(curr->Compare(curr->GetNext))
+                //     swap();
                 if (Compare(curr)) {
                     Swap(GetIndex((struct Item*)curr));
                     swapped = true;
@@ -176,14 +178,13 @@ void SubjList::Sort() {
     }
 }
 
-Base* SubjList::SearchByName(std::string name) {
+void SubjList::SearchByName(std::string name) {
     Base* curr = (Base*)GetHead();
     for (curr; curr; curr = (struct Base*)curr->GetNext()) {
         if (!name.compare(curr->GetName())) {
-            return curr;
+            curr->Print();
         }
     }
-    return nullptr;
 }
 
 void SubjList::SearchByDistance(double start, double end) {

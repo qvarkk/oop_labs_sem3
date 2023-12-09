@@ -14,6 +14,8 @@ class Base : public Item {
 		double mass;
 		int diameter;
 	public:
+		Base() : type(ItemType::itNone), name(""), mass(0.0), diameter(0) {}
+		~Base() {}
 		Base* Create(ItemType);
 		void Input();
 		void Print();
@@ -28,6 +30,8 @@ class Star : public Base {
 		double appMagn; // apparent magnitude
 		int distToEarth; // distance
 	public:
+		Star() : temperature(0), appMagn(0.0), distToEarth(0) {SetType(ItemType::itStar);}
+		~Star(){}
 		void Input();
 		void Print();
 		double GetDistanceToEarth();
@@ -38,6 +42,8 @@ class Planet : public Base {
 		std::string planetarySystem;
 		int orbitDiameter;
 	public:
+		Planet() : planetarySystem(""), orbitDiameter(0) {SetType(ItemType::itPlanet);}
+		~Planet() {};
 		void Input();
 		void Print();
 		int GetOrbitDiameter();
@@ -51,7 +57,7 @@ public:
     void Swap(int);
 		void Sort();
     void SearchByDistance(double, double);
-		Base* SearchByName(std::string);
+		void SearchByName(std::string);
 };
 
 

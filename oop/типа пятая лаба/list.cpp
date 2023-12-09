@@ -112,8 +112,6 @@ void List::Insert(Item* item, int index) {
 Item* List::Remove(int index) {
     Item* item = GetItem(index);
 
-    std::cout << item << std::endl;
-
     if (item == nullptr)
         return nullptr;
 
